@@ -6,4 +6,7 @@ end
 
 if game.GameId == 3326279937 then
 	L_File(Repository, 'Blackout')
+	return 'Blackout Loaded!'
+else
+	return 'No Loader found.'
 end

@@ -417,6 +417,11 @@ do -- Menu
 			Library.ShowCustomCursor = Value
 		end,
 	})
+	MenuGroup:AddToggle('AntiCrashUnload', {
+		Text = 'Anti Crash Unload [EXPERIMENTAL]',
+		Description = 'Attempts to prevent Unload crashes by spamming task.wait(0.1) on each operation.',
+		Default = true,
+	})
 	MenuGroup:AddDropdown('NotificationSide', {
 		Values = { 'Left', 'Right' },
 		Default = 'Right',
@@ -443,8 +448,13 @@ do -- Menu
 	MenuGroup:AddDivider()
 	MenuGroup:AddLabel('Menu bind')
 		:AddKeyPicker('MenuKeybind', { Default = 'RightShift', NoUI = true, Text = 'Menu keybind' })
-
+	
 	MenuGroup:AddButton('Unload', function()
+		local function ShouldWait()
+			if Toggles.AntiCrashUnload.Value then
+				return task.wait(0.1)
+			end
+		end
 		if RunServiceConnection then
 			RunServiceConnection:Disconnect()
 			RunServiceConnection = nil
@@ -457,18 +467,22 @@ do -- Menu
 			KeyDownConnection:Disconnect()
 			KeyDownConnection = nil
 		end
+		ShouldWait()
 		if ESPLibrary then
-			ESPLibrary:Clear()
 			ESPLibrary:Destroy()
+			RunService.Stepped:Wait()
 		end
 		if ProximityPromptConnection then
 			ProximityPromptConnection:Disconnect()
 			ProximityPromptConnection = nil
+			RunService.Stepped:Wait()
 		end
+		ShouldWait()
 		local s,e = pcall(function()
 			for HookName,Hook in Hooks do
 				restorefunction(Hook.Function)
 				warn('Everlose: Restored function: ', HookName)
+				RunService.Stepped:Wait()
 			end
 		end)
 		if BodyGyro then
@@ -481,6 +495,7 @@ do -- Menu
 			BodyVelocity:Destroy()
 			BodyVelocity = nil
 		end
+		ShouldWait()
 
 		if not s then
 			warn('Error at Un-Doing hooks:',e)
@@ -489,6 +504,7 @@ do -- Menu
 		for _,v in {'__namecall','__index','__newindex'} do
 			local s,e = pcall(function()
 				restorefunction(RawMetatable[v])
+				RunService.RenderStepped:Wait()
 			end)
 			if not s then
 				warn('Error at Un-Doing hookmetamethod:',e)
@@ -539,15 +555,6 @@ do -- Menu
 		WarnedOperators = nil
 		InstanceCache = nil
 		Folders = nil
-
-		if BodyVelocity then
-			BodyVelocity:Destroy()
-			BodyVelocity = nil
-		end
-		if BodyGyro then
-			BodyGyro:Destroy()
-			BodyGyro = nil
-		end
 
 		RunService.Stepped:Wait()
 		Library:Unload()

@@ -1178,7 +1178,13 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 	local Nearest = GetNearestChar(MaxEspDist)
 
 	IsSilentAimDown = Toggles.SilentAimToggle.Value and Options.SilentAimKeybind:GetState() or false
-
+	
+	local function CancelSilentAim()
+		Line.Visible = false
+		NewData['Result Instance'] = nil
+		NewData['Result Position'] = vector.zero
+	end
+	
 	if IsSilentAimDown then
 		Fov_Circle.Visible = true
 
@@ -1207,19 +1213,15 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 				end
 				if HitPart then
 					NewData['Result Instance'] = HitPart
-					NewData['Result Position'] = HitPart.Position
+					NewData['Result Position'] = HitPart.Position + RNG:NextUnitVector()*0.1
 				else
-					Line.Visible = false
-					NewData['Result Instance'] = nil
-					NewData['Result Position'] = vector.zero
+					CancelSilentAim()
 				end
 			else
-				Line.Visible = false
-				NewData['Result Instance'] = nil
-				NewData['Result Position'] = vector.zero
+				CancelSilentAim()
 			end
 		else
-			Line.Visible = false
+			CancelSilentAim()
 		end
 	else
 		Line.Visible = false
@@ -1397,7 +1399,7 @@ OldNamecall = hookmetamethod(game,'__namecall',newcclosure(function(...)
 					local CastResult = {
 						['Instance'] = NewData['Result Instance'],
 						['Position'] = NewData['Result Position'],
-						['Normal'] = Vector3.new(0,0,1),
+						['Normal'] = vector.create(0,0,1),
 						['Distance'] = Distance,
 						['Material'] = NewData['Result Instance'].Material,
 					}

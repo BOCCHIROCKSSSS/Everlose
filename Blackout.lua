@@ -305,6 +305,8 @@ do -- Main
 		Text = 'Do Webhook Logging',
 		Default = false,
 	})
+
+	RunService.RenderStepped:Wait()
 end
 
 do -- Gun Mods
@@ -334,6 +336,8 @@ do -- Gun Mods
 		Text = 'Bypass Prepare',
 		Default = false,
 	})
+
+	RunService.RenderStepped:Wait()
 end
 
 do -- Esp
@@ -392,6 +396,8 @@ do -- Esp
 		Visible = true,
 		--Risky = false, -- Makes the text red (the color can be changed using Library.Scheme.Red) (Default value = false)
 	})
+
+	RunService.RenderStepped:Wait()
 end
 
 do -- Menu
@@ -564,6 +570,8 @@ do -- Menu
 	ThemeManager:ApplyToTab(Tabs['UI Settings'])
 
 	SaveManager:LoadAutoloadConfig()
+
+	RunService.RenderStepped:Wait()
 end
 
 Library:Notify({
@@ -845,7 +853,7 @@ local function HandleLocalCharAdded(char:Model)
 					repeat
 						RunService.RenderStepped:Wait()
 					until c:GetAttribute('EquipId') ~= '' and c:GetAttribute('EquipId') ~= ' ' and char:FindFirstChild('ServerGunModel')
-					
+
 					if Toggles.EnableGunMods.Value then
 						for i,v in getgc(true) do
 							if i%2500 == 0 then RunService.RenderStepped:Wait() end

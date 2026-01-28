@@ -1207,7 +1207,7 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 						local function DetermineColor() : (Color3?)
 							local Tbl = _G.DangerousItems[ToolName]
 							if Tbl then
-								if not table.find(WarnedTools, RayValue) then
+								if not table.find(WarnedTools, RayValue) and PlayerFromChar then
 									table.insert(WarnedTools, RayValue)
 									if Tbl.Notify then
 										local SoundId = 'rbxassetid://17582299860'

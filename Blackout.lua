@@ -1,15 +1,94 @@
-local function _GetService(n:string)
-	return cloneref(game:GetService(n))
-end
+--!nocheck
+--!nolint UnknownGlobal
 
-local RunService:RunService = _GetService('RunService')
-local Players:Players = _GetService('Players')
-local ReplicatedStorage:ReplicatedStorage = _GetService('ReplicatedStorage')
-local TagService:CollectionService = _GetService('CollectionService')
-local UserInputService:UserInputService = _GetService('UserInputService')
-local ProximityPromptService:ProximityPromptService = _GetService('ProximityPromptService')
-local Lighting:Lighting = _GetService('Lighting')
-local HttpService:HttpService = _GetService('HttpService')
+export type namecalltypes = ('FireServer'|'InvokeServer'|'Destroy'|'Clone'|'GetChildren'|'GetDescendants'|'FindFirstChild'|'FindFirstChildOfClass'|'FindFirstChildWhichIsA'|'WaitForChild'|'IsA'|'GetFullName'|'ClearAllChildren'|'GetPropertyChangedSignal'|'GetAttribute'|'GetAttributes'|'SetAttribute'|'Remove'|'BreakJoints'|'Connect'|'Once'|'Wait'|'GetService'|'service'|'FindService'|'Raycast'|'FindPartOnRay'|'FindPartsInRegion3'|'GetPartsInPart'|'Kick'|'GetMouse'|'LoadCharacter'|'WaitForDataReady'|'TakeDamage'|'Move'|'ChangeState'|'GetState'|'LoadAnimation'|'SetStateEnabled'|'WorldToViewportPoint'|'ViewportPointToRay'|'ScreenPointToRay'|'BindToRenderStep'|'UnbindFromRenderStep'|'Create'|'GetMouseLocation'|'IsKeyDown'|'GetFocusedTextBox'|'JSONEncode'|'JSONDecode'|'BindToClose'|'Play'|'Stop'|'Pause')
+export type userdata = typeof(newproxy())
+export type isclosure = (func: (...any) -> (...any)) -> boolean
+export type hookmethods = ('__namecall'|'__newindex'|'__index')
+export type RequestOptions = {
+	Url: string,
+	Method: 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS' | 'PATCH',
+	Body: string?,
+	Headers: { [string]: string }?,
+	Cookies: { [string]: string }?
+}
+export type Response = {
+	Success: boolean,
+	Body: string,
+	StatusCode: number,
+	StatusMessage: string,
+	Headers: { [string]: string }
+}
+export type ConnectionObject = RBXScriptConnection & {Enabled:boolean, ForeignState:boolean, LuaConnection:boolean, Function:(any) -> (any)?, Thread:thread?, Enable:() -> (), Disable:() -> (), Disconnect:() -> (), Defer:(any) -> (), Fire:(any) -> ()}
+
+export type AnyFunction = (...any) -> (...any)
+export type AnyTable = { [any]: any }
+
+export type FunctionFilterOptions = {
+	Name: string?,
+	IgnoreExecutor: boolean?,
+	Hash: string?,
+	Constants: { string }?,
+	Upvalues: { any }?
+}
+export type TableFilterOptions = {
+	Keys: { [any]: any }?,
+	Values: { [any]: any }?,
+	KeyValuePairs: { [any]: any }?,
+	Metatable: { [any]: any }?,
+}
+
+local hookfunction:<A1..., R1..., A2..., R2...>(functionToHook: (A1...) -> R1..., hook: (A2...) -> R2...) -> (A1...) -> R1... = hookfunction
+local checkcaller:<fn>(fn:fn?) -> (boolean) = checkcaller
+local clonefunction:<A..., R...>(functionToClone: (A...) -> R...) -> (A...) -> R... = clonefunction
+local hookmetamethod:<A..., R...>(object: { [any]: any } | Instance | userdata,metamethodName: hookmethods,hook: (A...) -> R...) -> (A...) -> R... = hookmetamethod
+local newcclosure:<A..., R...>(functionToWrap: (A...) -> R...) -> (A...) -> R... = newcclosure
+local islclosure:isclosure = islclosure
+local iscclosure:isclosure = iscclosure
+local isexecutorclosure:isclosure = isexecutorclosure
+local getnamecallmethod:() -> (namecalltypes) = getnamecallmethod
+local getgenv:() -> ({ any }) = getgenv
+local getrenv:() -> ({ ['_G']:{}, ['shared']:{} }) = getrenv
+local appendfile:(path: string, contents: string) -> () = appendfile
+local delfile:(path: string) -> () = delfile
+local delfolder:(path: string) -> () = delfolder
+local getcustomasset:(path: string) -> (string) = getcustomasset
+local isfile:(path: string) -> (boolean) = isfile
+local isfolder:(path: string) -> (boolean) = isfolder
+local listfiles:(path: string) -> ({string}) = listfiles
+local makefolder:(path: string) -> () = makefolder
+local readfile:(path: string) -> (string) = readfile
+local writefile:(path: string, data:string) -> () = writefile
+local cloneref:<T>(object:T & Instance) -> T = cloneref
+local fireclickdetector:(detector: ClickDetector, distance: number?, event: string?) -> () = fireclickdetector
+local fireproximityprompt:(prompt: ProximityPrompt) -> () = fireproximityprompt
+local firetouchinterest:(part1: BasePart, part2: BasePart, toggle: boolean | number) -> () = firetouchinterest
+local getcallbackvalue:(object: Instance, property: string) -> any | nil = getcallbackvalue
+local gethui:() -> BasePlayerGui | Folder = gethui
+local getinstances:() -> ({Instance}) = getinstances
+local getnilinstances:() -> ({Instance}) = getnilinstances
+local getrawmetatable:(object: {any} | userdata) -> {[any]:any}? = getrawmetatable
+local isreadonly:(table:{any}) -> boolean
+local setrawmetatable:<T>(object:T & ({any} | userdata), metatatble:{any}) -> T = setrawmetatable
+local setreadonly:(table:{any}, state:boolean) -> () = setreadonly
+local request:(options: RequestOptions) -> Response = request
+local restorefunction:(functionToRestore: (...any) -> (...any)) -> () = restorefunction
+local firesignal:(signal:RBXScriptSignal, ...any?) -> () = firesignal
+local replicatesignal:(signal:RBXScriptSignal, ...any?) -> () = replicatesignal
+local getconnections:(signal:RBXScriptSignal) -> ({ConnectionObject}) = getconnections
+local getgc:(boolean) -> (...any) = getgc
+local filtergc:('table'|'function'|string, FunctionFilterOptions|TableFilterOptions, boolean) -> (...any) = filtergc
+local getcallingscript:() -> BaseScript? | ModuleScript? = getcallingscript
+
+
+local RunService = cloneref(game:GetService('RunService'))
+local Players = cloneref(game:GetService('Players'))
+local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
+local TagService = cloneref(game:GetService('CollectionService'))
+local UserInputService = cloneref(game:GetService('UserInputService'))
+local ProximityPromptService = cloneref(game:GetService('ProximityPromptService'))
+local Lighting = cloneref(game:GetService('Lighting'))
+local HttpService = cloneref(game:GetService('HttpService'))
 
 local Mods:Folder = ReplicatedStorage.Mods
 local GunStorage:Folder = ReplicatedStorage.GunStorage
@@ -31,6 +110,54 @@ local RNG = Random.new()
 local Shoot:RemoteEvent = GunEvents.Shoot
 
 local Camera = workspace.CurrentCamera
+
+local Colors = {
+	['Dangerous+'] = Color3.fromRGB(85,0,0),
+	['Dangerous'] = Color3.fromRGB(255,0,0),
+	['Red'] = Color3.fromRGB(255,0,0),
+	['Yellow'] = Color3.fromRGB(85,0,0),
+}
+
+local DangerousItems = {
+	['Skyfall T.A.G.'] = {
+		Notify = true,
+		Color = Colors['Dangerous+']
+	},
+	['Photon Accelerator'] = {
+		Notify = true,
+		Color = Colors['Dangerous+']
+	},
+	['RPG-G'] = {
+		Notify = true,
+		Color = Colors.Yellow
+	},
+
+	['Photon Alternator'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+	['Photon Blades'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+	['RPG-18'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+	['P90-Z'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+	['KS-23'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+	['RSH-12'] = {
+		Notify = false,
+		Color = Colors.Dangerous
+	},
+}
+_G.DangerousItems = DangerousItems
 
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer.PlayerGui
@@ -141,6 +268,7 @@ local InstanceCache = {
 	Characters = {},
 	LootBag = {},
 }
+local WarnedTools = {}
 local WarnedOperators = {}
 local Hooks = {}
 local Requirements = {
@@ -448,7 +576,7 @@ do -- Menu
 	MenuGroup:AddDivider()
 	MenuGroup:AddLabel('Menu bind')
 		:AddKeyPicker('MenuKeybind', { Default = 'RightShift', NoUI = true, Text = 'Menu keybind' })
-	
+
 	MenuGroup:AddButton('Unload', function()
 		local function ShouldWait()
 			if Toggles.AntiCrashUnload.Value then
@@ -581,12 +709,6 @@ do -- Menu
 	RunService.RenderStepped:Wait()
 end
 
-Library:Notify({
-	Title = 'Everlose',
-	Description = 'Everlose has fully loaded!',
-	Time = 10,
-})
-
 KeyDownConnection = UserInputService.InputBegan:Connect(function(i:InputObject,g:boolean)
 	if g then return end
 	i = i.KeyCode
@@ -634,7 +756,7 @@ local function Friendly(Char:Model)
 	local PlayerFromChar = Players:GetPlayerFromCharacter(Char)
 	if PlayerFromChar then
 		if Toggles.FriendlyCheck.Value then
-			return PlayerFromChar:IsFriendsWith(LocalPlayer.UserId)
+			return PlayerFromChar:IsFriendsWithAsync(LocalPlayer.UserId)
 		end
 	end
 	if Char:GetAttribute('Faction') ~= nil and Char:GetAttribute('Faction') == (LocalPlayer.PlayerGui:GetAttribute('Reputation') <= -50 and 'Vulture' or LocalPlayer.PlayerGui:GetAttribute('Reputation') >= 50 and 'Rebel' or 'Outlander') then
@@ -862,41 +984,46 @@ local function HandleLocalCharAdded(char:Model)
 					until c:GetAttribute('EquipId') ~= '' and c:GetAttribute('EquipId') ~= ' ' and char:FindFirstChild('ServerGunModel')
 
 					if Toggles.EnableGunMods.Value then
-						for i,v in getgc(true) do
-							if i%2500 == 0 then RunService.RenderStepped:Wait() end
+						local gc = filtergc('table', {
+							Keys = {'Firing', 'Reloading', 'Swaping', 'Inspecting', 'AmmoTypes', 'Modes'}
+						}, false)
+						for i,v in gc do
 							if typeof(v) == 'table' then
-								for Name,Table in Requirements do
-									for _,s in Table do
-										local get = rawget(v, s)
-										if get then
-											if not tables[`{Name}{i}`] then
-												tables[`{Name}{i}`] = {
-													tbl = v,
-													OriginalValues = {},
-													name = Name,
-												}
+								local Firing = v['Firing']
+								if typeof(Firing) == 'table' then
+									for Name,Table in Requirements do
+										for _,s in Table do
+											local get = rawget(Firing, s)
+											if get then
+												if not tables[`{Name}{i}`] then
+													tables[`{Name}{i}`] = {
+														tbl = Firing,
+														OriginalValues = {},
+														name = Name,
+													}
+												end
+												tables[`{Name}{i}`].OriginalValues[s] = get
 											end
-											tables[`{Name}{i}`].OriginalValues[s] = get
 										end
 									end
-								end
 
-								local Prepare = rawget(v, 'Prepare')
-								if typeof(Prepare) == 'table' and Prepare['Enabled'] ~= nil then
-									tables[`Prepare{i}`] = {
-										tbl = Prepare,
-										OriginalValues = table.clone(Prepare),
-										name = 'Prepare',
-									}
-								end
+									local Prepare = rawget(Firing, 'Prepare')
+									if typeof(Prepare) == 'table' and Prepare['Enabled'] ~= nil then
+										tables[`Prepare{i}`] = {
+											tbl = Prepare,
+											OriginalValues = table.clone(Prepare),
+											name = 'Prepare',
+										}
+									end
 
-								local Chamber = rawget(v, 'Chamber')
-								if Chamber and typeof(Chamber) == 'table' and rawget(Chamber, 'Enabled') ~= nil then
-									tables[`Chamber{i}`] = {
-										tbl = Chamber,
-										OriginalValues = table.clone(Chamber),
-										name = 'Chamber',
-									}
+									local Chamber = rawget(v, 'Chamber')
+									if Chamber and typeof(Chamber) == 'table' and rawget(Chamber, 'Enabled') ~= nil then
+										tables[`Chamber{i}`] = {
+											tbl = Chamber,
+											OriginalValues = table.clone(Chamber),
+											name = 'Chamber',
+										}
+									end
 								end
 							end
 						end
@@ -975,6 +1102,8 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 						Color = Color,
 						MaxDistance = 1000,
 
+						StudsOffset = vector.create(0,-2,0),
+
 						TextSize = 17,
 
 						ESPType = 'Highlight',
@@ -1023,7 +1152,8 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 
 				local PlayerFromChar = nil
 				local IsFriend = nil
-				local _Humanoid = nil
+				local _Humanoid:Humanoid = nil
+				local Root:Part = CurrentSettings.Model:FindFirstChild('HumanoidRootPartt')
 				if TypeString == 'Characters' then
 					PlayerFromChar = Players:GetPlayerFromCharacter(CurrentSettings.Model)
 					if PlayerFromChar then
@@ -1032,7 +1162,7 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 							TypeTable[i] = nil
 							continue
 						else
-							IsFriend = PlayerFromChar:IsFriendsWith(LocalPlayer.UserId)
+							IsFriend = PlayerFromChar:IsFriendsWithAsync(LocalPlayer.UserId)
 							if IsFriend then
 								Color = Options.FriendlyEspColor.Value
 							end
@@ -1072,10 +1202,37 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 
 				if TypeString == 'Characters' then
 					if _Humanoid ~= nil and _Humanoid:IsA('Humanoid') then
+						local RayValue:RayValue = CurrentSettings.Model:FindFirstChildWhichIsA('RayValue')
+						local ToolName = (RayValue ~= nil and RayValue.Name or 'None')
+						local function DetermineColor() : (Color3?)
+							local Tbl = _G.DangerousItems[ToolName]
+							if Tbl then
+								if not table.find(WarnedTools, RayValue) then
+									table.insert(WarnedTools, RayValue)
+									if Tbl.Notify then
+										local SoundId = 'rbxassetid://17582299860'
+										Library:Notify({
+											Title = 'Everlose Item Notificator',
+											Description = `⚠️ {CurrentSettings.Model} has a {ToolName}!`,
+											Time = 10,
+											SoundId = SoundId
+										})
+									end
+								end
+								return Tbl.Color
+							end
+							return nil
+						end
+						local Color = DetermineColor()
+						local R,G,B = nil,nil,nil
+						if Color ~= nil then
+							R,G,B = math.round(Color.R*255),math.round(Color.G*255),math.round(Color.B*255)
+						end
+						local Text = `{_Humanoid.DisplayName ~= '' and _Humanoid.DisplayName ~= ' ' and _Humanoid.DisplayName or _Humanoid.Parent.Name}: {math.round(_Humanoid.Health)}/{math.round(_Humanoid.MaxHealth)} <br/> Tool: {Color ~= nil and ('<font color="rgb(%s,%s,%s)">'):format(R,G,B) or ''}{ToolName}{Color ~= nil and '</font>' or ''}`
 						if Prefix ~= '' then
-							CurrentSettings.Name = `{Prefix} {_Humanoid.DisplayName ~= '' and _Humanoid.DisplayName ~= ' ' and _Humanoid.DisplayName or _Humanoid.Parent.Name}: {math.round(_Humanoid.Health)}/{math.round(_Humanoid.MaxHealth)}`
+							CurrentSettings.Name = `{Prefix} {Text}`
 						else
-							CurrentSettings.Name = `{_Humanoid.DisplayName ~= '' and _Humanoid.DisplayName ~= ' ' and _Humanoid.DisplayName or _Humanoid.Parent.Name}: {math.round(_Humanoid.Health)}/{math.round(_Humanoid.MaxHealth)}`
+							CurrentSettings.Name = `{Text}`
 						end
 					else
 						tbl:Destroy()
@@ -1178,13 +1335,13 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 	local Nearest = GetNearestChar(MaxEspDist)
 
 	IsSilentAimDown = Toggles.SilentAimToggle.Value and Options.SilentAimKeybind:GetState() or false
-	
+
 	local function CancelSilentAim()
 		Line.Visible = false
 		NewData['Result Instance'] = nil
 		NewData['Result Position'] = vector.zero
 	end
-	
+
 	if IsSilentAimDown then
 		Fov_Circle.Visible = true
 
@@ -1270,73 +1427,82 @@ RunServiceConnection = RunService.Stepped:Connect(function(t:number,dt:number)
 end)
 
 local function UpdateBag(Bag:Model)
-	local LootTable = Bag:WaitForChild('LootTable')
+	local Thread = task.spawn(function()
+		local LootTable = nil
+		repeat
+			LootTable = Bag:FindFirstChild('LootTable')
+			RunService.RenderStepped:Wait()
+		until not Bag or LootTable
+		if not Bag then return end
 
-	local function HandleItemAdded(c:Instance)
-		if Options.ItemsToNotify.Value[c.Name] and Toggles.NotifyItems.Value then
-			Library:Notify({
-				Title = 'Everlose Item Notifier',
-				Description = `{c.Name} has been dropped!`,
-				Time = 5,
-			})
-			if not InstanceCache.LootBag[Bag] then
-				InstanceCache.LootBag[Bag] = {
-					Esp = ESPLibrary:Add({
-						Name = 'Loot Bag',
+		local function HandleItemAdded(c:Instance)
+			if Options.ItemsToNotify.Value[c.Name] and Toggles.NotifyItems.Value then
+				Library:Notify({
+					Title = 'Everlose Item Notifier',
+					Description = `{c.Name} has been dropped!`,
+					Time = 5,
+				})
+				if not InstanceCache.LootBag[Bag] then
+					InstanceCache.LootBag[Bag] = {
+						Esp = ESPLibrary:Add({
+							Name = 'Loot Bag',
 
-						Model = Bag,
-						TextModel = Bag,
+							Model = Bag,
+							TextModel = Bag,
 
-						Color = Options.LootbagEspColor.Value,
-						MaxDistance = 1000,
-
-						TextSize = 17,
-
-						ESPType = 'Highlight',
-
-						FillColor = Options.LootbagEspColor.Value,
-						OutlineColor = Options.LootbagEspColor.Value,
-						FillTransparency = 0.8,
-						OutlineTransparency = 0,
-
-						Tracer = { 
-							Enabled = false,
 							Color = Options.LootbagEspColor.Value,
-							From = 'Mouse'
-						},
+							MaxDistance = 1000,
 
-						Arrow = {
-							Enabled = false,
-							Color = Options.LootbagEspColor.Value
-						}
-					})
-				}
-			end
-		end
-	end
+							TextSize = 17,
 
-	for _,Item in LootTable:GetChildren() do
-		HandleItemAdded(Item)
-	end
-	table.insert(Connections, LootTable.ChildAdded:Connect(HandleItemAdded))
-	table.insert(Connections, LootTable.ChildRemoved:Connect(function(c:Instance)
-		local LootTable = c:FindFirstChild('LootTable')
-		local ItemsOfInterest = false
-		if LootTable then
-			for _,v in c do
-				if Options.ItemsToNotify.Value[c.Name] then
-					ItemsOfInterest = true
-					break
+							ESPType = 'Highlight',
+
+							FillColor = Options.LootbagEspColor.Value,
+							OutlineColor = Options.LootbagEspColor.Value,
+							FillTransparency = 0.8,
+							OutlineTransparency = 0,
+
+							Tracer = { 
+								Enabled = false,
+								Color = Options.LootbagEspColor.Value,
+								From = 'Mouse'
+							},
+
+							Arrow = {
+								Enabled = false,
+								Color = Options.LootbagEspColor.Value
+							}
+						})
+					}
 				end
 			end
 		end
-		if not ItemsOfInterest then
-			if InstanceCache.LootBag[c] then
-				InstanceCache.LootBag[Bag].Esp:Destroy()
-				InstanceCache.LootBag[Bag] = nil
-			end
+
+		for _,Item in LootTable:GetChildren() do
+			HandleItemAdded(Item)
 		end
-	end))
+
+		table.insert(Connections, LootTable.ChildAdded:Connect(HandleItemAdded))
+		table.insert(Connections, LootTable.ChildRemoved:Connect(function(c:Instance)
+			local LootTable = c:FindFirstChild('LootTable')
+			local ItemsOfInterest = false
+			if LootTable then
+				for _,v in c do
+					if Options.ItemsToNotify.Value[c.Name] then
+						ItemsOfInterest = true
+						break
+					end
+				end
+			end
+			if not ItemsOfInterest then
+				if InstanceCache.LootBag[Bag] then
+					InstanceCache.LootBag[Bag].Esp:Destroy()
+					InstanceCache.LootBag[Bag] = nil
+				end
+			end
+		end))
+	end)
+	table.insert(Threads, Thread)
 end
 
 table.insert(Connections, workspace.Debris.Loot.ChildAdded:Connect(function(c:Instance)
@@ -1443,6 +1609,12 @@ OldNamecall = hookmetamethod(game,'__namecall',newcclosure(function(...)
 
 	return OldNamecall(...)
 end))
+
+Library:Notify({
+	Title = 'Everlose',
+	Description = 'Everlose has fully loaded!',
+	Time = 10,
+})
 
 --[[
 local CS = game:GetService('CollectionService')
